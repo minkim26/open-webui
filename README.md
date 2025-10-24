@@ -1,228 +1,447 @@
 # Open WebUI 👋
 
-![GitHub stars](https://img.shields.io/github/stars/open-webui/open-webui?style=social)
-![GitHub forks](https://img.shields.io/github/forks/open-webui/open-webui?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/open-webui/open-webui?style=social)
-![GitHub repo size](https://img.shields.io/github/repo-size/open-webui/open-webui)
-![GitHub language count](https://img.shields.io/github/languages/count/open-webui/open-webui)
-![GitHub top language](https://img.shields.io/github/languages/top/open-webui/open-webui)
-![GitHub last commit](https://img.shields.io/github/last-commit/open-webui/open-webui?color=red)
-![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Follama-webui%2Follama-wbui&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)
-[![Discord](https://img.shields.io/badge/Discord-Open_WebUI-blue?logo=discord&logoColor=white)](https://discord.gg/5rJgQTnV4s)
-[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/tjbck)
-
 **Open WebUI is an [extensible](https://docs.openwebui.com/features/plugin/), feature-rich, and user-friendly self-hosted AI platform designed to operate entirely offline.** It supports various LLM runners like **Ollama** and **OpenAI-compatible APIs**, with **built-in inference engine** for RAG, making it a **powerful AI deployment solution**.
 
 ![Open WebUI Demo](./demo.gif)
 
-> [!TIP]  
-> **Looking for an [Enterprise Plan](https://docs.openwebui.com/enterprise)?** – **[Speak with Our Sales Team Today!](mailto:sales@openwebui.com)**
->
-> Get **enhanced capabilities**, including **custom theming and branding**, **Service Level Agreement (SLA) support**, **Long-Term Support (LTS) versions**, and **more!**
+## Table of Contents
+- [About This Fork](#about-this-fork)
+- [Prerequisites](#prerequisites)
+- [Part 1: Install Miniforge (Conda)](#part-1-install-miniforge-conda)
+- [Part 2: Install NVM (Node Version Manager)](#part-2-install-nvm-node-version-manager)
+- [Part 3: Clone the Repository](#part-3-clone-the-repository)
+- [Part 4: Build and Run Open WebUI](#part-4-build-and-run-open-webui)
+- [Development Workflow](#development-workflow)
+- [Troubleshooting](#troubleshooting)
+- [Debranding Guide](#debranding-guide)
+- [Version Information](#version-information)
+- [License ](#license )
+---
 
-For more information, be sure to check out our [Open WebUI Documentation](https://docs.openwebui.com/).
+## About This Fork
 
-## Key Features of Open WebUI ⭐
+This repository is a customized fork of [Open WebUI](https://github.com/open-webui/open-webui) based on **version 0.6.5** (commit: `07d8460126a686de9a99e2662d06106e22c3f6b6`).
 
-- 🚀 **Effortless Setup**: Install seamlessly using Docker or Kubernetes (kubectl, kustomize or helm) for a hassle-free experience with support for both `:ollama` and `:cuda` tagged images.
+### Repository Optimization
 
-- 🤝 **Ollama/OpenAI API Integration**: Effortlessly integrate OpenAI-compatible APIs for versatile conversations alongside Ollama models. Customize the OpenAI API URL to link with **LMStudio, GroqCloud, Mistral, OpenRouter, and more**.
+This fork has been minimized to reduce repository size and remove unnecessary artifacts:
 
-- 🛡️ **Granular Permissions and User Groups**: By allowing administrators to create detailed user roles and permissions, we ensure a secure user environment. This granularity not only enhances security but also allows for customized user experiences, fostering a sense of ownership and responsibility amongst users.
+**Size Reduction**: ~2.7GB → ~619MB (77% reduction)
 
-- 📱 **Responsive Design**: Enjoy a seamless experience across Desktop PC, Laptop, and Mobile devices.
+#### What Was Removed:
 
-- 📱 **Progressive Web App (PWA) for Mobile**: Enjoy a native app-like experience on your mobile device with our PWA, providing offline access on localhost and a seamless user interface.
+- ✅ **Build Artifacts** (`node_modules/`, `build/`, `backend/static/`) - Regenerated during build process
+- ✅ **Runtime Data** (`backend/data/cache/`, `backend/data/uploads/`, `backend/data/vector_db/`) - Created during runtime
+- ✅ **Generated Assets** (`static/assets/`, `static/pyodide/`) - Rebuilt automatically
+- ✅ **Original Project Documentation** (`CHANGELOG.md`, `CODE_OF_CONDUCT.md`, `TROUBLESHOOTING.md`) - Replaced with custom docs
 
-- ✒️🔢 **Full Markdown and LaTeX Support**: Elevate your LLM experience with comprehensive Markdown and LaTeX capabilities for enriched interaction.
+#### What's Preserved:
 
-- 🎤📹 **Hands-Free Voice/Video Call**: Experience seamless communication with integrated hands-free voice and video call features, allowing for a more dynamic and interactive chat environment.
+- ✅ **Source Code** - Complete v0.6.5 codebase
+- ✅ **Configuration Files** - All necessary config files
+- ✅ **Dependencies Manifests** - `package.json`, `requirements.txt`
+- ✅ **Build Scripts** - All build and development scripts
 
-- 🛠️ **Model Builder**: Easily create Ollama models via the Web UI. Create and add custom characters/agents, customize chat elements, and import models effortlessly through [Open WebUI Community](https://openwebui.com/) integration.
+### Why This Approach?
 
-- 🐍 **Native Python Function Calling Tool**: Enhance your LLMs with built-in code editor support in the tools workspace. Bring Your Own Function (BYOF) by simply adding your pure Python functions, enabling seamless integration with LLMs.
+This lean repository approach:
+- Reduces clone time and disk space usage
+- Ensures users build with current dependencies
+- Prevents committing generated or user-specific files
+- Makes the repository easier to customize and maintain
 
-- 📚 **Local RAG Integration**: Dive into the future of chat interactions with groundbreaking Retrieval Augmented Generation (RAG) support. This feature seamlessly integrates document interactions into your chat experience. You can load documents directly into the chat or add files to your document library, effortlessly accessing them using the `#` command before a query.
+All removed files are automatically regenerated when you follow the build instructions below.
 
-- 🔍 **Web Search for RAG**: Perform web searches using providers like `SearXNG`, `Google PSE`, `Brave Search`, `serpstack`, `serper`, `Serply`, `DuckDuckGo`, `TavilySearch`, `SearchApi` and `Bing` and inject the results directly into your chat experience.
+### Customization Ready
 
-- 🌐 **Web Browsing Capability**: Seamlessly integrate websites into your chat experience using the `#` command followed by a URL. This feature allows you to incorporate web content directly into your conversations, enhancing the richness and depth of your interactions.
-
-- 🎨 **Image Generation Integration**: Seamlessly incorporate image generation capabilities using options such as AUTOMATIC1111 API or ComfyUI (local), and OpenAI's DALL-E (external), enriching your chat experience with dynamic visual content.
-
-- ⚙️ **Many Models Conversations**: Effortlessly engage with various models simultaneously, harnessing their unique strengths for optimal responses. Enhance your experience by leveraging a diverse set of models in parallel.
-
-- 🔐 **Role-Based Access Control (RBAC)**: Ensure secure access with restricted permissions; only authorized individuals can access your Ollama, and exclusive model creation/pulling rights are reserved for administrators.
-
-- 🌐🌍 **Multilingual Support**: Experience Open WebUI in your preferred language with our internationalization (i18n) support. Join us in expanding our supported languages! We're actively seeking contributors!
-
-- 🧩 **Pipelines, Open WebUI Plugin Support**: Seamlessly integrate custom logic and Python libraries into Open WebUI using [Pipelines Plugin Framework](https://github.com/open-webui/pipelines). Launch your Pipelines instance, set the OpenAI URL to the Pipelines URL, and explore endless possibilities. [Examples](https://github.com/open-webui/pipelines/tree/main/examples) include **Function Calling**, User **Rate Limiting** to control access, **Usage Monitoring** with tools like Langfuse, **Live Translation with LibreTranslate** for multilingual support, **Toxic Message Filtering** and much more.
-
-- 🌟 **Continuous Updates**: We are committed to improving Open WebUI with regular updates, fixes, and new features.
-
-Want to learn more about Open WebUI's features? Check out our [Open WebUI documentation](https://docs.openwebui.com/features) for a comprehensive overview!
-
-## 🔗 Also Check Out Open WebUI Community!
-
-Don't forget to explore our sibling project, [Open WebUI Community](https://openwebui.com/), where you can discover, download, and explore customized Modelfiles. Open WebUI Community offers a wide range of exciting possibilities for enhancing your chat interactions with Open WebUI! 🚀
-
-## How to Install 🚀
-
-### Installation via Python pip 🐍
-
-Open WebUI can be installed using pip, the Python package installer. Before proceeding, ensure you're using **Python 3.11** to avoid compatibility issues.
-
-1. **Install Open WebUI**:
-   Open your terminal and run the following command to install Open WebUI:
-
-   ```bash
-   pip install open-webui
-   ```
-
-2. **Running Open WebUI**:
-   After installation, you can start Open WebUI by executing:
-
-   ```bash
-   open-webui serve
-   ```
-
-This will start the Open WebUI server, which you can access at [http://localhost:8080](http://localhost:8080)
-
-### Quick Start with Docker 🐳
-
-> [!NOTE]  
-> Please note that for certain Docker environments, additional configurations might be needed. If you encounter any connection issues, our detailed guide on [Open WebUI Documentation](https://docs.openwebui.com/) is ready to assist you.
-
-> [!WARNING]
-> When using Docker to install Open WebUI, make sure to include the `-v open-webui:/app/backend/data` in your Docker command. This step is crucial as it ensures your database is properly mounted and prevents any loss of data.
-
-> [!TIP]  
-> If you wish to utilize Open WebUI with Ollama included or CUDA acceleration, we recommend utilizing our official images tagged with either `:cuda` or `:ollama`. To enable CUDA, you must install the [Nvidia CUDA container toolkit](https://docs.nvidia.com/dgx/nvidia-container-runtime-upgrade/) on your Linux/WSL system.
-
-### Installation with Default Configuration
-
-- **If Ollama is on your computer**, use this command:
-
-  ```bash
-  docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
-  ```
-
-- **If Ollama is on a Different Server**, use this command:
-
-  To connect to Ollama on another server, change the `OLLAMA_BASE_URL` to the server's URL:
-
-  ```bash
-  docker run -d -p 3000:8080 -e OLLAMA_BASE_URL=https://example.com -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
-  ```
-
-- **To run Open WebUI with Nvidia GPU support**, use this command:
-
-  ```bash
-  docker run -d -p 3000:8080 --gpus all --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:cuda
-  ```
-
-### Installation for OpenAI API Usage Only
-
-- **If you're only using OpenAI API**, use this command:
-
-  ```bash
-  docker run -d -p 3000:8080 -e OPENAI_API_KEY=your_secret_key -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
-  ```
-
-### Installing Open WebUI with Bundled Ollama Support
-
-This installation method uses a single container image that bundles Open WebUI with Ollama, allowing for a streamlined setup via a single command. Choose the appropriate command based on your hardware setup:
-
-- **With GPU Support**:
-  Utilize GPU resources by running the following command:
-
-  ```bash
-  docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
-  ```
-
-- **For CPU Only**:
-  If you're not using a GPU, use this command instead:
-
-  ```bash
-  docker run -d -p 3000:8080 -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
-  ```
-
-Both commands facilitate a built-in, hassle-free installation of both Open WebUI and Ollama, ensuring that you can get everything up and running swiftly.
-
-After installation, you can access Open WebUI at [http://localhost:3000](http://localhost:3000). Enjoy! 😄
-
-### Other Installation Methods
-
-We offer various installation alternatives, including non-Docker native installation methods, Docker Compose, Kustomize, and Helm. Visit our [Open WebUI Documentation](https://docs.openwebui.com/getting-started/) or join our [Discord community](https://discord.gg/5rJgQTnV4s) for comprehensive guidance.
-
-### Troubleshooting
-
-Encountering connection issues? Our [Open WebUI Documentation](https://docs.openwebui.com/troubleshooting/) has got you covered. For further assistance and to join our vibrant community, visit the [Open WebUI Discord](https://discord.gg/5rJgQTnV4s).
-
-#### Open WebUI: Server Connection Error
-
-If you're experiencing connection issues, it’s often due to the WebUI docker container not being able to reach the Ollama server at 127.0.0.1:11434 (host.docker.internal:11434) inside the container . Use the `--network=host` flag in your docker command to resolve this. Note that the port changes from 3000 to 8080, resulting in the link: `http://localhost:8080`.
-
-**Example Docker Command**:
-
-```bash
-docker run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name open-webui --restart always ghcr.io/open-webui/open-webui:main
-```
-
-### Keeping Your Docker Installation Up-to-Date
-
-In case you want to update your local Docker installation to the latest version, you can do it with [Watchtower](https://containrrr.dev/watchtower/):
-
-```bash
-docker run --rm --volume /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --run-once open-webui
-```
-
-In the last part of the command, replace `open-webui` with your container name if it is different.
-
-Check our Updating Guide available in our [Open WebUI Documentation](https://docs.openwebui.com/getting-started/updating).
-
-### Using the Dev Branch 🌙
-
-> [!WARNING]
-> The `:dev` branch contains the latest unstable features and changes. Use it at your own risk as it may have bugs or incomplete features.
-
-If you want to try out the latest bleeding-edge features and are okay with occasional instability, you can use the `:dev` tag like this:
-
-```bash
-docker run -d -p 3000:8080 -v open-webui:/app/backend/data --name open-webui --add-host=host.docker.internal:host-gateway --restart always ghcr.io/open-webui/open-webui:dev
-```
-
-### Offline Mode
-
-If you are running Open WebUI in an offline environment, you can set the `HF_HUB_OFFLINE` environment variable to `1` to prevent attempts to download models from the internet.
-
-```bash
-export HF_HUB_OFFLINE=1
-```
-
-## What's Next? 🌟
-
-Discover upcoming features on our roadmap in the [Open WebUI Documentation](https://docs.openwebui.com/roadmap/).
-
-## License 📜
-
-This project is licensed under the [BSD-3-Clause License](LICENSE) - see the [LICENSE](LICENSE) file for details. 📄
-
-## Support 💬
-
-If you have any questions, suggestions, or need assistance, please open an issue or join our
-[Open WebUI Discord community](https://discord.gg/5rJgQTnV4s) to connect with us! 🤝
-
-## Star History
-
-<a href="https://star-history.com/#open-webui/open-webui&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=open-webui/open-webui&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=open-webui/open-webui&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=open-webui/open-webui&type=Date" />
-  </picture>
-</a>
+This fork is prepared for customization and rebranding. See [Debranding Guide](#debranding-guide) section below for details.
 
 ---
 
-Created by [Timothy Jaeryang Baek](https://github.com/tjbck) - Let's make Open WebUI even more amazing together! 💪
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- **Operating System**: Linux, macOS, or Windows with WSL2
+- **Git**: Installed and configured
+
+---
+
+## Part 1: Install Miniforge (Conda)
+
+Miniforge is a minimal installer for Conda that helps you manage Python environments and dependencies.
+
+### On macOS/Linux:
+
+```bash
+# Download and install Miniforge
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh
+
+# Follow the installation prompts:
+# 1. Press ENTER to review the license
+# 2. Type 'yes' to accept the license terms
+# 3. Press ENTER to confirm the installation location (or specify custom path)
+# 4. Type 'yes' when asked "Do you wish to update your shell profile to automatically initialize conda?"
+```
+
+### On Windows (WSL2):
+
+```bash
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh"
+bash Miniforge3-Linux-x86_64.sh
+```
+
+### Verify Installation:
+
+```bash
+# Close and reopen your terminal, or run:
+source ~/.bashrc  # For bash users
+# OR
+source ~/.zshrc   # For zsh users
+
+# Verify conda is installed
+conda --version
+# Expected output: conda 24.x.x or similar
+```
+
+---
+
+## Part 2: Install NVM (Node Version Manager)
+
+NVM allows you to install and manage multiple Node.js versions.
+
+### Install NVM:
+
+```bash
+# Download and install NVM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+# Close and reopen your terminal, or run:
+source ~/.bashrc  # For bash users
+# OR
+source ~/.zshrc   # For zsh users
+
+# Verify NVM is installed
+nvm --version
+# Expected output: 0.39.0 or similar
+```
+
+### Install Node.js 22:
+
+```bash
+# Install Node.js version 22 (required by Open WebUI)
+nvm install 22
+
+# Set Node.js 22 as the active version
+nvm use 22
+
+# Set Node.js 22 as the default version
+nvm alias default 22
+
+# Verify Node.js installation
+node --version
+# Expected output: v22.x.x
+
+npm --version
+# Expected output: 10.x.x or similar
+```
+
+---
+
+## Part 3: Clone the Forked Repository
+
+### Fork and Clone:
+
+1. Go to Open WebUI forked copy on GitHub: `https://github.com/minkim26/open-webui`
+2. Copy the clone URL
+
+```bash
+# Clone the forked repository
+git clone https://github.com/minkim26/open-webui.git
+
+# Navigate into the repository
+cd open-webui
+
+# Verify you're on the main branch
+git branch --show-current
+# Expected output: main
+
+# If not on the main branch, switch to it:
+git checkout main
+```
+
+---
+
+## Part 4: Build and Run Open WebUI
+
+### Step 1: Set Up Python Environment
+
+```bash
+# Navigate to the backend directory
+cd backend
+
+# Create a new Conda environment with Python 3.11
+conda create --name open-webui python=3.11
+
+# When prompted "Proceed ([y]/n)?", type: y
+
+# Activate the environment
+conda activate open-webui
+
+# Your terminal prompt should now show: (open-webui)
+
+# Install Python dependencies
+pip install -r requirements.txt -U
+
+# This will take several minutes...
+```
+
+### Step 2: Build the Frontend
+
+```bash
+# Navigate back to the project root
+cd ..
+
+# Ensure you're using Node.js 22
+nvm use 22
+
+# Copy the environment file
+cp -RPp .env.example .env
+
+# Install frontend dependencies
+npm install
+
+# If you encounter errors, try:
+npm install --force
+
+# Build the frontend (this compiles it into static files)
+npm run build
+```
+
+This creates an optimized production build in the `build/` directory.
+
+### Step 3: Copy Built Frontend to Backend
+
+```bash
+# Copy the built frontend to the backend's static directory
+cp -r build backend/static
+
+# Verify the files were copied
+ls -la backend/static/
+```
+
+### Step 4: Start the Backend Server
+
+```bash
+# Navigate to the backend directory
+cd backend
+
+# Make sure your conda environment is activated
+conda activate open-webui
+
+# Start the backend development server
+sh dev.sh
+```
+
+**Expected output:**
+```
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+INFO:     Started reloader process
+INFO:     Started server process
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+```
+
+### Step 5: Access Open WebUI
+
+Open your web browser and navigate to:
+
+**http://localhost:8080**
+
+You should see the Open WebUI interface! 🎉
+
+**API Documentation is available at:**
+
+**http://localhost:8080/docs**
+
+---
+
+## Development Workflow
+
+### Starting Open WebUI:
+
+```bash
+# Terminal 1: Navigate to backend and start server
+cd ~/open-webui/backend
+conda activate open-webui
+sh dev.sh
+
+# Access at: http://localhost:8080
+```
+
+### Making Frontend Changes:
+
+When you modify frontend code, you need to rebuild:
+
+```bash
+# Terminal 2: Navigate to project root
+cd ~/open-webui
+
+# Ensure you're using Node 22
+nvm use 22
+
+# Rebuild the frontend
+npm run build
+
+# Copy the new build to backend
+cp -r build backend/static
+
+# The backend will automatically detect changes if dev.sh is running
+```
+
+### Stopping the Server:
+
+In the terminal running the backend, press `Ctrl+C`
+
+---
+
+## Troubleshooting
+
+### "conda: command not found"
+
+```bash
+# Reinitialize your shell
+source ~/.bashrc  # For bash
+# OR
+source ~/.zshrc   # For zsh
+
+# If still not working, manually add to your profile:
+echo 'export PATH="$HOME/miniforge3/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### "nvm: command not found"
+
+```bash
+# Add NVM to your shell profile manually
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### "Open WebUI Backend Required" Error
+
+This means the frontend isn't being served from the backend. Solution:
+
+```bash
+# Rebuild and copy frontend
+cd ~/open-webui
+npm run build
+cp -r build backend/static
+
+# Restart backend
+cd backend
+conda activate open-webui
+sh dev.sh
+
+# Access at http://localhost:8080 (NOT 5173)
+```
+
+### Backend Won't Start
+
+```bash
+# Check if port 8080 is already in use
+lsof -i :8080
+
+# If something is using it, kill that process:
+kill -9 <PID>
+
+# Try starting the backend again
+```
+
+### Python Dependencies Installation Fails
+
+```bash
+# Recreate the conda environment
+conda deactivate
+conda remove --name open-webui --all
+conda create --name open-webui python=3.11
+conda activate open-webui
+pip install -r requirements.txt -U
+```
+
+### Frontend Build Fails
+
+```bash
+# Clear npm cache and node_modules
+rm -rf node_modules package-lock.json
+npm cache clean --force
+
+# Reinstall dependencies
+npm install --force
+
+# Try building again
+npm run build
+```
+
+### Browser Shows Blank Page
+
+```bash
+# Check if static files exist
+ls -la backend/static/
+
+# If empty, rebuild and copy:
+cd ~/open-webui
+npm run build
+cp -r build backend/static
+
+# Clear browser cache and hard refresh (Ctrl+Shift+R or Cmd+Shift+R)
+```
+
+---
+
+## Debranding Guide
+
+For future plans to rebrand this fork, modify the following:
+
+1. **README.md** - Update all "Open WebUI" references
+2. **package.json** - Change `"name": "open-webui"` to your project name
+3. **backend/open_webui/env.py** - Update:
+   ```python
+   WEBUI_NAME = "Your Project Name"
+   WEBUI_FAVICON_URL = "your-favicon-url"
+   ```
+4. **backend/open_webui/main.py** - Update repository references
+5. **Translation files** (`src/lib/i18n/locales/`) - Contains "Open WebUI" text
+6. **Configuration files** - Service names and references
+7. **Docker files** - Customize for your branding
+8. **INSTALLATION.md** - Update installation instructions
+
+### Recommended Approach:
+
+```bash
+# Search for all "Open WebUI" references
+grep -r "Open WebUI" . --exclude-dir={node_modules,build,backend/static}
+
+# Search for "open-webui" references
+grep -r "open-webui" . --exclude-dir={node_modules,build,backend/static}
+
+# Update incrementally and test after each major change
+```
+
+---
+
+## Version Information
+
+- **Open WebUI Version**: v0.6.5
+- **Commit SHA**: `07d8460126a686de9a99e2662d06106e22c3f6b6`
+- **Python Version**: 3.11+
+- **Node.js Version**: 22+
+
+---
+
+## License
+
+This project follows the original Open WebUI license.  
+Please refer to the [LICENSE](./LICENSE) file in this repository for details.

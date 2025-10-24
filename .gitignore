@@ -16,9 +16,16 @@ __pycache__/
 # C extensions
 *.so
 
-# Pyodide distribution
-static/pyodide/*
+# Pyodide distribution and build artifacts
+static/pyodide/
 !static/pyodide/pyodide-lock.json
+static/assets/
+
+# Build artifacts and runtime data - exclude from fork
+backend/static/
+backend/data/
+build/
+dist/
 
 # Distribution / packaging
 .Python
@@ -307,3 +314,20 @@ dist
 cypress/videos
 cypress/screenshots
 .vscode/settings.json
+
+# Local development and user data - exclude from fork
+*.db
+*.db-*
+webui.db*
+uploads/
+cache/
+vector_db/
+
+# Demo and branding files - remove for debranding
+demo.gif
+CHANGELOG.md
+
+# Docker and deployment files - may want to customize these
+docker-compose*.yaml
+Dockerfile*
+kubernetes/
