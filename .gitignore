@@ -323,10 +323,6 @@ uploads/
 cache/
 vector_db/
 
-# Demo and branding files - remove for debranding
-demo.gif
-CHANGELOG.md
-
 # Docker and deployment files - may want to customize these
 docker-compose*.yaml
 Dockerfile*
