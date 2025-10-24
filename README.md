@@ -15,7 +15,9 @@
 - [Troubleshooting](#troubleshooting)
 - [Debranding Guide](#debranding-guide)
 - [Version Information](#version-information)
-- [License ](#license )
+- [Legal and Attribution](#legal-and-attribution)
+- [License](#license )
+
 ---
 
 ## About This Fork
@@ -441,7 +443,22 @@ grep -r "open-webui" . --exclude-dir={node_modules,build,backend/static}
 
 ---
 
+## Legal and Attribution
+
+This repository is a customized fork of the original [Open WebUI](https://github.com/open-webui/open-webui) project © 2023–2025 Timothy Jaeryang Baek, originally released under the **BSD 3-Clause License**.
+
+This fork includes modifications and rebranding by © 2025 Oregon State University, and all new contributions are licensed under the **MIT License**.
+
+---
+
 ## License
 
-This project follows the original Open WebUI license.  
-Please refer to the [LICENSE](./LICENSE) file in this repository for details.
+This project is licensed under the [MIT License](./LICENSE).
+Portions of this work retain the original Open WebUI BSD 3-Clause License terms.
+
+- Portions of this project are derived from the Open WebUI source code and remain covered by the original BSD 3-Clause License.
+- Modifications, additions, and new files authored by Oregon State University are provided under the MIT License.
+- The full license terms are available in the [LICENSE](./LICENSE) file.
+- Neither the name “Open WebUI” nor the names of its original contributors may be used to endorse or promote derivative products.
+
+By using this codebase, you agree to comply with the licensing conditions specified in both the upstream Open WebUI BSD 3-Clause License and the MIT License governing this fork.
